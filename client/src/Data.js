@@ -28,17 +28,13 @@ export default class Data {
       return fetch(url, options);
   }
 
-  // Makes a GET request to the /users endpoint, and returns a JSON object.
-  async getUser(emailAddress, password) {
-    const response = await this.api(`/users`, 'GET', null, true, { emailAddress, password });
-    if (response.status === 200) {
-      return response.json().then(data => data);
-    }
-    else if (response.status === 401) {
-      return null;
-    }
-    else {
-      throw new Error();
+   // Makes a GET request to courses.
+   async getCourses() {
+    const response = await this.api('/courses', 'GET')
+    if(response.status === 200) {
+      return response.json().then(data => data)
+    } else {
+      window.location.replace('/error')
     }
   }
 }
