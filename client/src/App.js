@@ -7,6 +7,7 @@ import {
 
 //importing components
 import Courses from './components/Courses';
+import CourseDetail from './components/CourseDetail';
 import UnhandledError from './components/UnhandledError';
 
 // Higher order component
@@ -14,6 +15,7 @@ import withContext from './Context';
 
 //subscribing components to context
 const CoursesWithContext = withContext(Courses);
+const CourseDetailWithContext = withContext(CourseDetail);
 
 
 function App() {
@@ -23,6 +25,7 @@ function App() {
 
       <Switch>
         <Route exact path="/" component={CoursesWithContext} />
+        <Route exact path="/courses/:id" component={CourseDetailWithContext}/>
         <Route path="/error" component={UnhandledError} />
       </Switch>
     </div>
