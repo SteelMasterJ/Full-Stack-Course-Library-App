@@ -5,7 +5,7 @@ export default ({ context }) => {
     
         // Extract context from this.props.
         const authUser = context.authenticatedUser;   
-
+        //console.log(authUser);
 
         return (
             <div className="header">
@@ -15,7 +15,7 @@ export default ({ context }) => {
                         {
                             authUser ? 
                                 <React.Fragment>
-                                    <span>Welcome, {authUser.authUser.firstName} {authUser.authUser.lastName}!</span>
+                                    <span>Welcome, {authUser[0].firstName}!</span>
                                     <Link to="/signout">Sign Out</Link>
                                 </React.Fragment>
                             :
