@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
 import ReactMarkdown from "react-markdown";
 
 
@@ -14,27 +15,49 @@ export default class CourseDetail extends Component {
   };
 
   componentDidMount() {
-    this.loadCourse();
+    const { context, match }= this.props;
+        const course = match.params.id;
+        context.data.getCourse(course)
+        .then((data) => {
+            if (data === 'Course not found.'){
+                this.props.history.push('/not-found')
+            } else {    
+                this.setState({ 
+                    id: data.id,
+                    title: data.title,
+                    description: data.description,
+                    estimatedTime: data.estimatedTime,
+                    materialsNeeded: data.materialsNeeded,
+                    userId: data.user.id,
+                    author: data.user,
+                    emailAddress: data.user.emailAddress
+            })
+            }
+        })
+        // .catch(err => {
+        //     console.log('Error fetching and parsing results', err);
+        //     this.props.history.push('/error');
+        // })
   }
 
   // Collect targetted course information.
-  loadCourse = () => {
-    this.props.context.actions.courseInfo(this.props.match.params.id)
-    .then(response => {
-      console.log(response)
-      this.setState({
-        title: response.course.title,
-        description: response.course.description,
-        estimatedTime: response.course.estimatedTime,
-        materialsNeeded: response.course.materialsNeeded,
-        userId: response.course.userId,
-        author: response.course.user
-      })
-    })
-    .catch(error => {
-      console.log('Error fetching and parsing data', error)
-    })
-  };
+  // loadCourse = () => {
+  //   this.props.context.actions.courseInfo(this.props.match.params.id)
+  //   .then(response => {
+  //     console.log(response)
+  //     this.setState({
+  //       title: response.course.title,
+  //       description: response.course.description,
+  //       estimatedTime: response.course.estimatedTime,
+  //       materialsNeeded: response.course.materialsNeeded,
+  //       userId: response.course.userId,
+  //       author: response.course.user
+  //     })
+  //   })
+  //   .catch(error => {
+  //     console.log('Error fetching and parsing data', error)
+  //   })
+  // };
   
   render() {
     const {
@@ -52,9 +75,15 @@ export default class CourseDetail extends Component {
     };
 
     
-    if(this.props.context.authenticatedUser !== null) {
-      authUser = this.props.context.authenticatedUser.authUser
-    }
+    // if(this.props.context.authenticatedUser !== null) {
+    //   authUser = this.props.context.authenticatedUser.authUser.id;
+    // }
+    let user;
+    if (this.props.context.authenticatedUser){
+        user = this.props.context.authenticatedUser[0].id;
+        console.log(user);
+    }    
+    const owner = this.state.userId;
 
     // Deletes targetted course when submitted
     const submit = () => {
@@ -63,7 +92,7 @@ export default class CourseDetail extends Component {
     }
 
     // Checks if the course's user matches the user currently authenticated.
-      if(authUser.id === userId) {
+      if(user === owner) {
         courseSettings = (
           <>
             <Link className="button" to={{pathname: `/courses/${this.props.match.params.id}/update`}}>Update Course</Link>
