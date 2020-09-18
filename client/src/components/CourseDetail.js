@@ -73,17 +73,12 @@ export default class CourseDetail extends Component {
     let authUser = {  
       id: []
     };
-
+    const ownerId = this.state.userId;
     
-    // if(this.props.context.authenticatedUser !== null) {
-    //   authUser = this.props.context.authenticatedUser.authUser.id;
-    // }
-    let user;
-    if (this.props.context.authenticatedUser){
-        user = this.props.context.authenticatedUser[0].id;
-        console.log(user);
-    }    
-    const owner = this.state.userId;
+    
+    if(this.props.context.authenticatedUser !== null) {
+      authUser = this.props.context.authenticatedUser[0];
+    }  
 
     // Deletes targetted course when submitted
     const submit = () => {
@@ -92,7 +87,7 @@ export default class CourseDetail extends Component {
     }
 
     // Checks if the course's user matches the user currently authenticated.
-      if(user === owner) {
+      if(authUser.id === ownerId) {
         courseSettings = (
           <>
             <Link className="button" to={{pathname: `/courses/${this.props.match.params.id}/update`}}>Update Course</Link>
