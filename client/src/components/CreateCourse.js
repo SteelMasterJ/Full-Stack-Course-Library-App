@@ -7,12 +7,17 @@ export default class UserSignUp extends Component {
     description: '',
     estimatedTime: '',
     materialsNeeded: '',
-    userId: this.props.context.authenticatedUser.authUser.id,
+    userId: this.props.context.authenticatedUser[0].id,
     errors: [],
   }
 
   render() {
     const {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      userId,
       errors,
     } = this.state;
 
@@ -105,7 +110,7 @@ export default class UserSignUp extends Component {
   // On submit create a course.
   submit = () => {
     const { context } = this.props;
-    const authUser = context.authenticatedUser.authUser.emailAddress;
+    const authUser = context.authenticatedUser[0].emailAddress;
     const authPassword = context.authPassword;
 
     
@@ -118,7 +123,7 @@ export default class UserSignUp extends Component {
       userId
     } = this.state;
 
-    // New user payload that will be passed to the createCourse() method.
+    // New user payload that will be passed to the createUser() method.
     const courseBody = {
       title,
       description,
@@ -127,7 +132,7 @@ export default class UserSignUp extends Component {
       userId
     };
 
-    // CreateCourse() is an asynchronous operation that returns a promise.
+    // CreateUser() is an asynchronous operation that returns a promise.
     context.data.createCourse(courseBody, authUser, authPassword)
     .then(errors => {
       console.log(errors)

@@ -34,10 +34,10 @@ export default class CourseDetail extends Component {
             })
             }
         })
-        // .catch(err => {
-        //     console.log('Error fetching and parsing results', err);
-        //     this.props.history.push('/error');
-        // })
+        .catch(err => {
+            console.log('Error fetching and parsing results', err);
+            this.props.history.push('/error');
+        })
   }
 
   // Collect targetted course information.
@@ -65,7 +65,7 @@ export default class CourseDetail extends Component {
       description,
       estimatedTime,
       materialsNeeded,
-      userId,
+      //userId,
       author
     } = this.state;
 

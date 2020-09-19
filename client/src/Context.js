@@ -99,29 +99,29 @@ export class Provider extends Component {
     return courses;
   }
   // Collects specific course information.
-  courseInfo = async (id) => {
-    const course = await this.data.getCourse(id);
-    this.setState(() => {
-      if(Object.keys(course).length === 0) {
-        window.location.replace('/not-found')
-      } else {
-        return {
-          courseDetail: {
-            userId: course.course.userId,
-            id: course.course.id,
-            title: course.course.title,
-            description: course.course.description,
-            estimatedTime: course.course.estimatedTime,
-            materialsNeeded: course.course.materialsNeeded,
-            firstName: course.course.user.firstName,
-            lastName: course.course.user.lastName,
-            emailAddress: course.course.user.emailAddress
-          }
-        };
-      }
-    });
-    return course;    
-  }
+  // courseInfo = async (id) => {
+  //   const course = await this.data.getCourse(id);
+  //   this.setState(() => {
+  //     if(Object.keys(course).length === 0) {
+  //       window.location.replace('/not-found')
+  //     } else {
+  //       return {
+  //         courseDetail: {
+  //           userId: course.course.userId,
+  //           id: course.course.id,
+  //           title: course.course.title,
+  //           description: course.course.description,
+  //           estimatedTime: course.course.estimatedTime,
+  //           materialsNeeded: course.course.materialsNeeded,
+  //           firstName: course.course.user.firstName,
+  //           lastName: course.course.user.lastName,
+  //           emailAddress: course.course.user.emailAddress
+  //         }
+  //       };
+  //     }
+  //   });
+  //   return course;    
+  // }
 }
 
 export const Consumer = Context.Consumer;

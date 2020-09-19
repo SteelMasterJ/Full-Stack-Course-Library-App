@@ -75,6 +75,7 @@ export default class Data {
       return response.json().then(data => data)
     } else {
       window.location.replace('/error')
+      console.log("its making a GET request");
     }
   }
 
