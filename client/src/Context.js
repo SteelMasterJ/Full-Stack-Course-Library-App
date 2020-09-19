@@ -103,7 +103,7 @@ export class Provider extends Component {
     const course = await this.data.getCourse(id);
     this.setState(() => {
       if(Object.keys(course).length === 0) {
-        window.location.replace('/not-found')
+        window.location.replace('/notfound')
       } else {
         return {
           courseDetail: {

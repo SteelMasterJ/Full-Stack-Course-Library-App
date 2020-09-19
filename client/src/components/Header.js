@@ -15,7 +15,7 @@ export default ({ context }) => {
                         {
                             authUser ? 
                                 <React.Fragment>
-                                    <span>Welcome, {authUser[0].firstName}!</span>
+                                    <span>Welcome, {authUser[0].firstName} {authUser[0].lastName}!</span>
                                     <Link to="/signout">Sign Out</Link>
                                 </React.Fragment>
                             :

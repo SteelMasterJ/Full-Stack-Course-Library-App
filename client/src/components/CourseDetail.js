@@ -20,7 +20,7 @@ export default class CourseDetail extends Component {
         context.data.getCourse(course)
         .then((data) => {
             if (data === 'Course not found.'){
-                this.props.history.push('/not-found')
+                this.props.history.push('/notfound')
             } else {    
                 this.setState({ 
                     id: data.id,
@@ -39,25 +39,6 @@ export default class CourseDetail extends Component {
             this.props.history.push('/error');
         })
   }
-
-  // Collect targetted course information.
-  // loadCourse = () => {
-  //   this.props.context.actions.courseInfo(this.props.match.params.id)
-  //   .then(response => {
-  //     console.log(response)
-  //     this.setState({
-  //       title: response.course.title,
-  //       description: response.course.description,
-  //       estimatedTime: response.course.estimatedTime,
-  //       materialsNeeded: response.course.materialsNeeded,
-  //       userId: response.course.userId,
-  //       author: response.course.user
-  //     })
-  //   })
-  //   .catch(error => {
-  //     console.log('Error fetching and parsing data', error)
-  //   })
-  // };
   
   render() {
     const {
@@ -80,20 +61,12 @@ export default class CourseDetail extends Component {
       authUser = this.props.context.authenticatedUser[0];
     }  
 
-    // Deletes targetted course when submitted
-    const submit = () => {
-      this.props.context.actions.courseDelete(this.props.match.params.id, authUser.emailAddress, this.props.context.authPassword)
-      this.props.history.push('/course/delete')
-    }
-
     // Checks if the course's user matches the user currently authenticated.
       if(authUser.id === ownerId) {
         courseSettings = (
           <>
             <Link className="button" to={{pathname: `/courses/${this.props.match.params.id}/update`}}>Update Course</Link>
-            <button className="button" type='submit'>
-              Delete Course
-            </button>
+            <button className="button" onClick={this.submit} href=''>Delete Course</button>
           </>
         );
       } 
@@ -107,7 +80,7 @@ export default class CourseDetail extends Component {
                 <div className="actions--bar">
                   <div className="bounds">
                     <div className="grid-100">
-                    <form onSubmit={submit}>
+                    <form onSubmit={this.delete}>
                         <span>
                           {courseSettings}
                         </span>
@@ -148,5 +121,20 @@ export default class CourseDetail extends Component {
             </div>
           </div>
         );
-  }    
+  }
+  delete =()=>{
+    // Retrieve USER context and Course ID
+    const { context } = this.props;
+    const id = this.state.id;
+
+    // Pass above info to API and return USER to Main Page
+    context.data.deleteCourse(id, this.props.context.authenticatedUser[0].emailAddress, this.props.context.authPassword)
+    .then(
+        this.props.history.push('/deleted')
+    )  
+    .catch((err) => {
+        console.log(err);
+        this.props.history.push('/error');
+    })
+} 
 }

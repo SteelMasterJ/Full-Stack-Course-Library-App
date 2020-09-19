@@ -74,8 +74,7 @@ export default class Data {
     if(response.status === 200) {
       return response.json().then(data => data)
     } else {
-      window.location.replace('/error')
-      console.log("its making a GET request");
+      window.location.replace('/notfound')
     }
   }
 

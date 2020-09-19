@@ -13,11 +13,6 @@ export default class UserSignUp extends Component {
 
   render() {
     const {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
-      userId,
       errors,
     } = this.state;
 
