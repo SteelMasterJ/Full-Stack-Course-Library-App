@@ -11,22 +11,33 @@ export default class UserSignUp extends Component {
   }
 
   componentDidMount() {
-    this.loadCourse();
+    const { context, match }= this.props;
+        const course = match.params.id;
+        console.log(context.authenticatedUser[0].id);
+        context.data.getCourse(course)
+        .then((data) => {
+            console.log(data);
+            if (data === 'Course not found.'){
+                this.props.history.push('/notfound')
+            } else if (data.user.id === context.authenticatedUser[0].id){
+                this.setState({ 
+                    id: data.id,
+                    title: data.title,
+                    description: data.description,
+                    estimatedTime: data.estimatedTime,
+                    materialsNeeded: data.materialsNeeded,
+                    owner: data.User
+                })
+            }
+            else { 
+               this.props.history.push('/forbidden')
+            }
+        })
+        .catch(err => {
+            console.log('Error fetching and parsing results', err);
+            this.props.history.push('/error');
+        })
   }
-
-  // Collect targetted course information.
-  loadCourse = () => {
-    this.props.context.actions.courseInfo(this.props.match.params.id)
-    .then(response => {
-      // If the current user does not have authentication for the course redirect to /forbidden.
-        if(response.course.userId !== this.props.context.authenticatedUser.authUser.id) {
-          this.props.history.push('/forbidden')
-        }
-    })
-    .catch(error => {
-      console.log('Error fetching and parsing data', error)
-    })
-  };
 
   render() {
     const {
@@ -134,7 +145,7 @@ export default class UserSignUp extends Component {
   // On submit update course.
   submit = () => {
     const { context } = this.props;
-    const authUser = context.authenticatedUser.authUser.emailAddress;
+    const authUser = context.authenticatedUser[0].emailAddress;
     const authPassword = context.authPassword;
     const courseId = this.props.match.params.id;
 
