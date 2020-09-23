@@ -186,6 +186,7 @@ export default class UserSignUp extends Component {
   }
 
   cancel = () => {
-      this.props.history.push('/');
+    const courseId = this.props.match.params.id;
+    this.props.history.push('/courses/' + courseId);
   }
 }
